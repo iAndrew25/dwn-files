@@ -3,25 +3,20 @@ import urlparse
 import mechanize
 import argparse
 import os
+import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-u", "--url", required=True, help="URL of the page you want to download files.")
 parser.add_argument("-f", "--file", required=True, help="File extension to download.")
-parser.add_argument("-l", "--limit", type=int, help="Limit the number of downloaded files. If 0, it downloads all the files.")
 args = parser.parse_args()
 
-
-limit = 0
-if args.limit:
-    limit = args.limit
-
-print("        _                 __ _ _            ")
-print("       | |               / _(_) |           ")
-print("     __| |_      ___ __ | |_ _| | ___  ___  ")
-print("    / _` \ \ /\ / / '_ \|  _| | |/ _ \/ __| ")
-print("   | (_| |\ V  V /| | | | | | | |  __/\__ \ ")
-print("    \__,_| \_/\_/ |_| |_|_| |_|_|\___||___/ ")
-print("                                            ")
+print "        _                   __ _ _            "
+print "       | |                 / _(_) |           "
+print "     __| |_      ___ __   | |_ _| | ___  ___  "
+print "    / _` \ \ /\ / / '_ \  |  _| | |/ _ \/ __| "
+print "   | (_| |\ V  V /| | | | | | | | |  __/\__ \ "
+print "    \__,_| \_/\_/ |_| |_| |_| |_|_|\___||___/ "
+print "                                              "
 
 br = mechanize.Browser()
 br.set_handle_robots(False)
@@ -32,7 +27,7 @@ count = 0
 extension = '.' + args.file
 
 if not os.path.exists(extension):
-    os.mkdir(extension)
+	os.mkdir(extension)
 
 br.open(args.url)
 
@@ -41,7 +36,10 @@ for link in br.links():
 	if newurl.endswith(extension) and newurl not in visited:
 		count += 1
 		visited.append(newurl)
-		f = open(extension + '/' + str(count) + '_' + link.text + extension, 'wb')
+		f = open(extension + '/' + str(count) + '_' + link.text, 'wb')
 		f.write(urllib.urlopen(newurl).read())
 		f.close()
-		print 'Files downloaded: ' + str(count)
+		sys.stdout.writelines ("Files downloaded: " + str(count) + "\n")
+		sys.stdout.flush()
+
+print "DONE!"

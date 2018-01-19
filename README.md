@@ -1,2 +1,7 @@
 # DWN Files
-Download a file with a certain extension, from a page.
+Download all the files with a certain extension, from an URL.
+
+## Usage:
+```
+$ python dwn-files.py -u [URL] -f [FILE_EXTENSION]
+```
