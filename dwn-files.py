@@ -39,7 +39,7 @@ for link in br.links():
 		f = open(extension + '/' + str(count) + '_' + link.text, 'wb')
 		f.write(urllib.urlopen(newurl).read())
 		f.close()
-		sys.stdout.writelines (link.text + " downloaded.\n")
+		sys.stdout.writelines(link.text.encode('utf-8') + " downloaded.\n")
 		sys.stdout.flush()
 
 print "\nDONE! " + str(count) + " files have been downloaded successfully."
