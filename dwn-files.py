@@ -25,6 +25,7 @@ br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.
 visited = []
 count = 0
 extension = '.' + args.file
+size = 0
 
 if not os.path.exists(extension):
 	os.mkdir(extension)
@@ -36,10 +37,12 @@ for link in br.links():
 	if newurl.endswith(extension) and newurl not in visited:
 		count += 1
 		visited.append(newurl)
-		f = open(extension + '/' + str(count) + '_' + link.text, 'wb')
-		f.write(urllib.urlopen(newurl).read())
-		f.close()
+		file = urllib.urlopen(newurl)
+		size = size + int(file.info().getheaders("Content-Length")[0])
+		output = open(extension + '/' + str(count) + '_' + link.text, 'wb')
+		output.write(file.read())
+		output.close()
 		sys.stdout.writelines(link.text.encode('utf-8') + " downloaded.\n")
 		sys.stdout.flush()
 
-print "\nDONE! " + str(count) + " files have been downloaded successfully."
+print "\nDONE! " + str(count) + " files (" + str(float(size / 1024 / 1024)) + "MB) have been successfully downloaded."
