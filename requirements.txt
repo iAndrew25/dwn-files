@@ -1,0 +1,2 @@
+urlparse3==1.1
+mechanize==0.4.5 
